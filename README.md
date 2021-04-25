@@ -76,7 +76,6 @@ Stock information provider. There are fifty stocks, components of 0050.TW, conta
 + `pipenv --python 3.7`
 + `pipenv install -r requirements.txt`
 + `pipenv shell`
-+ `set DJANGO_SETTINGS_MODULE=config.dev_settings`
 
 ### 2. Tables Build up
 + `python manage.py makemigrations accounts`
@@ -96,5 +95,3 @@ Stock information provider. There are fifty stocks, components of 0050.TW, conta
 + if you need access to admin page, execute the command below to create superuser(admin account).Then visit `https://127.0.0.1:8000/admin`.
 
 `python manage.py createsuperuser`
-
-+ `set DJANGO_SETTINGS_MODULE=config.dev_settings` needs to be execute each time when restarting porject.
