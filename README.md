@@ -10,7 +10,7 @@ Stock information provider. There are fifty stocks, components of 0050.TW, conta
 
 - Register
 
-![]("/screenshots/register.png")
+![](https://github.com/ycy-tw/python-django-stock/blob/7fa715f8555951abd9cc24067ccad6439bc6a4af/screenshots/register.png)
 
 - Login & Third-Party Connect (Facebook and Google)
 
