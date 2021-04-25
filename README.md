@@ -79,8 +79,8 @@ Stock information provider. There are fifty stocks, components of 0050.TW, conta
 + `set DJANGO_SETTINGS_MODULE=config.dev_settings`
 
 ### 2. Tables Build up
-+ `python manage.py makemigraions accounts`
-+ `python manage.py makemigraions info`
++ `python manage.py makemigrations accounts`
++ `python manage.py makemigrations info`
 + `python manage.py migrate`
 
 ### 3. Create demo data and run
