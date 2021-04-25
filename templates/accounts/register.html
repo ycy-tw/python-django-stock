@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" type='text/css' href="{% static 'accounts/login.css' %}">
+<body>
+    <div class="container">
+      <div class="form-container">
+        <form class="Inputs" method="POST">
+          <fieldset class="form-group">
+            <legend class="border-bottom mb-4">註冊</legend>
+          </fieldset>
+            {% csrf_token %}
+          <label for="email">電子信箱</label>
+          <input type='email' id="email" name="email" placeholder="example@email.com" />
+          <label for="pswd">密碼</label>
+          <input type='password' id="pswd" name="password1" placeholder="8位數以上英文數字組合" />
+          <label for="cofirm_pswd">確認密碼</label>
+          <input type='password' id="cofirm_pswd" name="password2" value="" /> <button type="submit">註冊</button>
+        </form>
+        <div class="footer">
+          <p>  已經有帳號了嗎?　
+            <a href="{% url 'login' %}">  登入 </a>　　　　</p>
+        </div>
+
+        {% if register_form.email.errors %}
+            <center style="color: #d10000"><b>{{ register_form.email.errors | striptags }}</b></center>
+
+        {% elif register_form.password1.errors %}
+            <center style="color: #d10000"><b>{{ register_form.password1.errors | striptags }}</b></center>
+
+        {% elif register_form.password2.errors %}
+            <center style="color: #d10000">><b>{{ register_form.password2.errors | striptags }}</b></center>
+
+        {%  elif register_form.non_field_errors %}
+            <center style="color: #d10000">><b>{{ register_form.non_field_errors | striptags }}</b></center>
+
+        {% endif %}
+
+  </body>
+
+  {% endblock %}
