@@ -83,9 +83,7 @@ Stock information provider. There are fifty stocks, components of 0050.TW, conta
 + `python manage.py migrate`
 
 ### 3. Create demo data and run
-+ `python manage.py dbshell`
-+ `.read demodata/buildDemoData.sql`
-+ `.quit`
++ `python demodata/addDemoData.py`
 + `python manage.py runserver`
 
 ### 4. Visit
