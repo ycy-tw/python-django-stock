@@ -10,35 +10,35 @@ Stock information provider. There are fifty stocks, components of 0050.TW, conta
 
 - Register
 
-![]("./screenshots/register.png")
+![]("/screenshots/register.png")
 
 - Login & Third-Party Connect (Facebook and Google)
 
-![](./screenshots/login.png")
+![](https://github.com/ycy-tw/python-django-stock/blob/b6a658fc7e3fffbc19bd1efe5c346527ff512726/screenshots/login.png)
 
 - Forgot Password
 
-![](./screenshots/forgotpwd.png")
+![](https://github.com/ycy-tw/python-django-stock/blob/b6a658fc7e3fffbc19bd1efe5c346527ff512726/screenshots/forgot_pwd.png)
 
 - Search
 
-![](./screenshots/search.png")
+![](https://github.com/ycy-tw/python-django-stock/blob/b6a658fc7e3fffbc19bd1efe5c346527ff512726/screenshots/search.png)
 
 - Basic Stock Information
 
-![](./screenshots/basic_info.png")
+![](https://github.com/ycy-tw/python-django-stock/blob/b6a658fc7e3fffbc19bd1efe5c346527ff512726/screenshots/basic_info.png)
 
 - Chips Stock Information
 
-![](./screenshots/chips_info.png")
+![](https://github.com/ycy-tw/python-django-stock/blob/b6a658fc7e3fffbc19bd1efe5c346527ff512726/screenshots/chips_info.png)
 
 - Stock Picking
 
-![](./screenshots/pick.png")
+![](https://github.com/ycy-tw/python-django-stock/blob/b6a658fc7e3fffbc19bd1efe5c346527ff512726/screenshots/pick.png)
 
 - Stock Picking Result
 
-![](./screenshots/pick_result.png")
+![](https://github.com/ycy-tw/python-django-stock/blob/b6a658fc7e3fffbc19bd1efe5c346527ff512726/screenshots/pick_result.png)
 
 
 ### Functinos:
