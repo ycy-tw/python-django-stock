@@ -1,6 +1,8 @@
 # Docker
 Dockerfile
 docker-compose.yml
+Pipfile
+Pipfile.lock
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

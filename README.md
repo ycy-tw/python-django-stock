@@ -6,39 +6,39 @@ Stock information provider. There are fifty stocks, components of 0050.TW, conta
 
 - Homepage
 
-![](/screenshots/hompage.png")
+![](./screenshots/hompage.png")
 
 - Register
 
-![](/screenshots/register.png")
+![](./screenshots/register.png")
 
 - Login & Third-Party Connect (Facebook and Google)
 
-![](/screenshots/login.png")
+![](./screenshots/login.png")
 
 - Forgot Password
 
-![](/screenshots/forgotpwd.png")
+![](./screenshots/forgotpwd.png")
 
 - Search
 
-![](/screenshots/search.png")
+![](./screenshots/search.png")
 
 - Basic Stock Information
 
-![](/screenshots/basic_info.png")
+![](./screenshots/basic_info.png")
 
 - Chips Stock Information
 
-![](/screenshots/chips_info.png")
+![](./screenshots/chips_info.png")
 
 - Stock Picking
 
-![](/screenshots/pick.png")
+![](./screenshots/pick.png")
 
 - Stock Picking Result
 
-![](/screenshots/pick_result.png")
+![](./screenshots/pick_result.png")
 
 
 ### Functinos:
