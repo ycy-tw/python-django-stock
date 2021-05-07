@@ -2,8 +2,13 @@
 Stock information provider. There are fifty stocks, components of 0050.TW, contained in `demodata` folder.
 
 ## Update Record
-2021.05.07 | Optimize pick_view, correct few misspelling
-2021.04.25 | First Push
+2021.05.07
++ Optimize pick_view.
++ Correct few misspelling.
++ Change naming style.
+
+2021.04.25
++ First Push
 
 ## Project Overview
 ### Screenshots
