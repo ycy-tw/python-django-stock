@@ -7,20 +7,20 @@ let linkTag = searchWrapper.querySelector("a");
 let webLink;
 
 // if user press any key and release
-inputBox.onkeyup = (e)=>{
+inputBox.onkeyup = (e) => {
     let userData = e.target.value; //user enetered data
     let emptyArray = [];
-    if(userData){
-        icon.onclick = ()=>{
-            window.location.pathname =  "info/" + selectData.slice(0, 4);
+    if (userData) {
+        icon.onclick = () => {
+            window.location.pathname = "info/" + selectData.slice(0, 4);
         }
-        emptyArray = suggestions.filter((data)=>{
+        emptyArray = suggestions.filter((data) => {
             //filtering array value and user characters to lowercase and return only those words which are start with user enetered chars
             return data.startsWith(userData.toLocaleLowerCase()) || data.startsWith(userData, 5);
         });
-        emptyArray = emptyArray.map((data)=>{
+        emptyArray = emptyArray.map((data) => {
             // passing return data inside li tag
-            return data = '<li>'+ data +'</li>';
+            return data = '<li>' + data + '</li>';
         });
         searchWrapper.classList.add("active"); //show autocomplete box
         showSuggestions(emptyArray);
@@ -29,26 +29,26 @@ inputBox.onkeyup = (e)=>{
             //adding onclick attribute in all li tag
             allList[i].setAttribute("onclick", "select(this)");
         }
-    }else{
+    } else {
         searchWrapper.classList.remove("active"); //hide autocomplete box
     }
 }
 
-function select(element){
+function select(element) {
     let selectData = element.textContent;
     inputBox.value = selectData;
-    icon.onclick = ()=>{
-        window.location.pathname =  "info/" + selectData.slice(0, 4);
+    icon.onclick = () => {
+        window.location.pathname = "info/" + selectData.slice(0, 4);
     }
     searchWrapper.classList.remove("active");
 }
 
-function showSuggestions(list){
+function showSuggestions(list) {
     let listData;
-    if(!list.length){
+    if (!list.length) {
         userValue = inputBox.value;
-        listData = "<li>"+ userValue + "</li>";
-    }else{
+        listData = "<li>" + userValue + "</li>";
+    } else {
         listData = list.join('');
     }
     suggBox.innerHTML = listData;

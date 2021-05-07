@@ -1,9 +1,10 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .forms import RegisterationForm
+from .forms import RegistrationForm
 from django.utils.translation import gettext, gettext_lazy as _
 
 from .models import Account
+
 
 class AccountAdmin(UserAdmin):
 
@@ -11,7 +12,7 @@ class AccountAdmin(UserAdmin):
     search_fields = ('email',)
     readonly_fields = ('date_joined', 'last_login')
 
-    ordering = ('email',) # solution for E033
+    ordering = ('email',)  # solution for E033
 
     filter_horizontal = ()
     list_filter = ()
@@ -31,6 +32,7 @@ class AccountAdmin(UserAdmin):
         }),
     )
 
-    add_form = RegisterationForm
+    add_form = RegistrationForm
+
 
 admin.site.register(Account, AccountAdmin)

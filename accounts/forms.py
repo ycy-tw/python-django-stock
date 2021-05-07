@@ -4,31 +4,31 @@ from django.contrib.auth import authenticate
 from django.utils.translation import gettext, gettext_lazy as _
 from .models import Account
 
-class RegisterationForm(UserCreationForm):
+
+class RegistrationForm(UserCreationForm):
 
     email = forms.EmailField(
         label=_('電子信箱'),
         widget=forms.EmailInput(attrs={'autocomplete': 'email'}),
         error_messages={
-                         'invalid': '請輸入有效電子信箱',
-                         'required':'尚未輸入電子信箱',
-                        }
+            'invalid': '請輸入有效電子信箱',
+            'required': '尚未輸入電子信箱',
+        }
     )
 
     password1 = forms.CharField(
         label=_('密碼'),
         strip=False,
         widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
-        error_messages={'required':'尚未輸入密碼'},
+        error_messages={'required': '尚未輸入密碼'},
     )
 
     password2 = forms.CharField(
         label=_('確認密碼'),
         widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
         strip=False,
-        error_messages={'required':'尚未輸入確認密碼'},
+        error_messages={'required': '尚未輸入確認密碼'},
     )
-
 
     error_messages = {
         'password_mismatch': ('兩次密碼輸入不同'),
@@ -51,8 +51,8 @@ class RegisterationForm(UserCreationForm):
 
 class LogInForm(forms.ModelForm):
 
-    email = forms.EmailField(error_messages={'required':'請輸入電子信箱'})
-    password = forms.CharField(error_messages={'required':'請輸入密碼'})
+    email = forms.EmailField(error_messages={'required': '請輸入電子信箱'})
+    password = forms.CharField(error_messages={'required': '請輸入密碼'})
 
     class Meta:
         model = Account
@@ -75,12 +75,12 @@ class ResetPasswordForm(SetPasswordForm):
         label=_("新密碼"),
         widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
         strip=False,
-        error_messages={'required':'尚未輸入密碼'},
+        error_messages={'required': '尚未輸入密碼'},
     )
     new_password2 = forms.CharField(
         label=_("確認新密碼"),
         strip=False,
-        error_messages={'required':'尚未輸入密碼'},
+        error_messages={'required': '尚未輸入密碼'},
         widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
     )
 

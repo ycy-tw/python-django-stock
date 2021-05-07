@@ -2,9 +2,10 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase, Client, SimpleTestCase
 from django.urls import reverse, resolve
 from django.core.exceptions import ValidationError
-from .forms import RegisterationForm, LogInForm
+from .forms import RegistrationForm, LogInForm
 from .views import RegisterView, HomePageView, LogInView
 from .models import Account
+
 
 class UserModelTest(TestCase):
 
@@ -77,28 +78,28 @@ class RegisterViewTests(TestCase):
 
 class RegisterFormTest(TestCase):
 
-    def test_fogot_email_error_messages(self):
+    def test_forgot_email_error_messages(self):
 
         forgotEmail = {
-            "email":"",
-            "password1":"testing123",
-            "password2":"testing123",
+            "email": "",
+            "password1": "testing123",
+            "password2": "testing123",
         }
 
-        form = RegisterationForm(data=forgotEmail)
+        form = RegistrationForm(data=forgotEmail)
         self.assertEqual(
             form.errors['email'][0], "尚未輸入電子信箱"
         )
 
-    def test_invaild_email_error_messages(self):
+    def test_invalid_email_error_messages(self):
 
-        invaildEmail = {
-            "email":"failEmail@xxxxx",
-            "password1":"testing123",
-            "password2":"testing123",
+        invalid_email = {
+            "email": "failEmail@xxxxx",
+            "password1": "testing123",
+            "password2": "testing123",
         }
 
-        form = RegisterationForm(data=invaildEmail)
+        form = RegistrationForm(data=invalid_email)
         self.assertEqual(
             form.errors['email'][0], "請輸入有效電子信箱"
         )
@@ -106,12 +107,12 @@ class RegisterFormTest(TestCase):
     def test_forgot_password1_error_messages(self):
 
         forgotPassword1 = {
-            "email":"failEmail@email.com",
-            "password1":"",
-            "password2":"testing123",
+            "email": "failEmail@email.com",
+            "password1": "",
+            "password2": "testing123",
         }
 
-        form = RegisterationForm(data=forgotPassword1)
+        form = RegistrationForm(data=forgotPassword1)
         self.assertEqual(
             form.errors['password1'][0], "尚未輸入密碼"
         )
@@ -119,12 +120,12 @@ class RegisterFormTest(TestCase):
     def test_forgot_password2_error_messages(self):
 
         forgotPassword2 = {
-            "email":"failEmail@email.com",
-            "password1":"testing123",
-            "password2":"",
+            "email": "failEmail@email.com",
+            "password1": "testing123",
+            "password2": "",
         }
 
-        form = RegisterationForm(data=forgotPassword2)
+        form = RegistrationForm(data=forgotPassword2)
         self.assertEqual(
             form.errors['password2'][0], "尚未輸入確認密碼"
         )
@@ -132,12 +133,12 @@ class RegisterFormTest(TestCase):
     def test_two_password_different_error_messages(self):
 
         twoPasswordDifferent = {
-            "email":"failEmail@email.com",
-            "password1":"testing123",
-            "password2":"testing123456",
+            "email": "failEmail@email.com",
+            "password1": "testing123",
+            "password2": "testing123456",
         }
 
-        form = RegisterationForm(data=twoPasswordDifferent)
+        form = RegistrationForm(data=twoPasswordDifferent)
         self.assertEqual(
             form.errors['password2'][0], "兩次密碼輸入不同"
         )
@@ -172,8 +173,8 @@ class LoginViewTests(TestCase):
             password='testpass123'
         )
         self.ExistedUser = {
-            "email":"ExistedUser@email.com",
-            "password":"testpass123"
+            "email": "ExistedUser@email.com",
+            "password": "testpass123"
         }
 
         self.response = self.client.post('/login/', self.ExistedUser, follow=True)
@@ -183,64 +184,13 @@ class LoginViewTests(TestCase):
     def test_fail_login(self):
 
         self.UserDoesNotExist = {
-            "email":"UserDoesNotExist@email.com",
-            "password":"testpass123"
+            "email": "UserDoesNotExist@email.com",
+            "password": "testpass123"
         }
 
         self.response = self.client.post('/login/', self.UserDoesNotExist, follow=True)
         self.assertEqual(self.response.status_code, 200)
         self.assertTemplateUsed(self.response, 'accounts/login.html')
-
-
-# class LogInFormTest(TestCase):
-
-#     def setUp(self):
-
-#         User = get_user_model()
-#         user = User.objects.create_user(
-#             email="ExistedUser@email.com",
-#             password='testpass123'
-#         )
-
-#         form = LogInForm(data={
-#                 "email":"ExistedUser@email.com",
-#                 "password":"testpass123"
-#         })
-
-#     def test_wrong_email_login_error_message(self):
-
-#         # wrongEmail = {
-#         #     "email":"WrongEmail@email.com",
-#         #     "password":"testpass123"
-#         # }
-
-#         # form = LogInForm(data=wrongEmail)
-#         # self.assertEqual(
-#         #     form.errors['email'][0], "登入失敗，請確認電子信箱和密碼"
-#         # )
-
-#         with self.assertRaises(ValidationError) as errorMessage:
-
-#             form = LogInForm(data={
-#                 "email":"WrongEmail@email.com",
-#                 "password":"testpass123"
-#             })
-
-#             self.assertEqual(
-#                 "登入失敗，請確認電子信箱和密碼",
-#                 str(errorMessage.expected_regexp)
-#             )
-
-#         # with self.assertRaises(ValueError) as errorMessage:
-#         #     form = LogInForm(data={
-#         #         "email":"ExistedUser@email.com",
-#         #         "password":"wrongPassword"
-#         #     })
-#         #     self.assertEqual(
-#         #         "登入失敗，請確認電子信箱和密碼",
-#         #         str(errorMessage)
-#         #     )
-
 
 
 class HomepageTests(SimpleTestCase):
@@ -252,7 +202,7 @@ class HomepageTests(SimpleTestCase):
     def test_homepage_template(self):
         self.assertTemplateUsed(self.response, 'index.html')
 
-    def test_homepage_url_resolves_homepageview(self): # new
+    def test_homepage_url_resolves_homepageview(self):  # new
         view = resolve('/')
         self.assertEqual(
             view.func.__name__,

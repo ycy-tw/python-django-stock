@@ -1,18 +1,18 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from .views import (
-    HomePageView,
-    RegisterView,
-    LogInView,
-    LogOutView,
+    homepage,
+    register,
+    login_view,
+    logout_view,
     ResetPasswordView,
 )
 
 urlpatterns = [
-    path('', HomePageView, name='home'),
-    path('register/', RegisterView, name='register'),
-    path('login/', LogInView, name='login'),
-    path('logout/', LogOutView, name='logout'),
+    path('', homepage, name='home'),
+    path('register/', register, name='register'),
+    path('login/', login_view, name='login'),
+    path('logout/', logout_view, name='logout'),
 
     path('password-reset/',
          auth_views.PasswordResetView.as_view(

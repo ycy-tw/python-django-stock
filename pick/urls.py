@@ -1,8 +1,7 @@
 from django.urls import path, include
-from .views import PickView, DownloadPickResult
-
+from .views import pick_view, download_pick_result
 
 urlpatterns = [
-    path('', PickView, name='pick'),
-    path('download', DownloadPickResult, name='download'),
+    path('', pick_view, name='pick'),
+    path('download', download_pick_result, name='download'),
 ]

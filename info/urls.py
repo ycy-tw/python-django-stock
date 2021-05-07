@@ -1,9 +1,8 @@
 from django.urls import path, include
 from .views import (
-    BasicVariableView,
+    basic_variable_view,
 )
 
 urlpatterns = [
-    # path('<int:symbol>/<str:variable>/', BasicVariableView, name='info'),
-    path('<int:symbol>/', BasicVariableView, name='info'),
+    path('<int:symbol>/', basic_variable_view, name='info'),
 ]

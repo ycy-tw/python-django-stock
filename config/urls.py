@@ -22,6 +22,5 @@ urlpatterns = [
     path('info/', include('info.urls')),
     path('pick/', include('pick.urls')),
 
-    #path('social-auth', include('social_django.urls', namespace='social')), # social auths
     path('oauth/', include('social_django.urls', namespace='social')),
 ]

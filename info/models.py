@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class StockBasic(models.Model):
 
     symbol = models.IntegerField()
@@ -7,6 +8,7 @@ class StockBasic(models.Model):
     capital = models.IntegerField()
     industry = models.CharField(max_length=150)
     listed_date = models.DateField()
+
 
 class StockPrice(models.Model):
 
@@ -22,13 +24,14 @@ class StockPrice(models.Model):
     pb = models.FloatField()
     yield_rate = models.FloatField()
 
+
 class StockChips(models.Model):
 
     date = models.DateField()
     symbol = models.IntegerField()
     margin_purchase = models.IntegerField()
     short_sale = models.IntegerField()
-    foreign	 = models.IntegerField()
+    foreign = models.IntegerField()
     trust = models.IntegerField()
     dealer = models.IntegerField()
     ftd_total = models.IntegerField()

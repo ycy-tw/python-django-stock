@@ -4,18 +4,19 @@ from django.urls import reverse
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.views import PasswordResetConfirmView
 
-from .forms import RegisterationForm, LogInForm, ResetPasswordForm
+from .forms import RegistrationForm, LogInForm, ResetPasswordForm
+
 
 class ResetPasswordView(PasswordResetConfirmView):
 
     form_class = ResetPasswordForm
 
 
-def HomePageView(request):
+def homepage(request):
     return render(request, 'index.html')
 
 
-def RegisterView(request):
+def register(request):
 
     user = request.user
     if user.is_authenticated:
@@ -23,19 +24,19 @@ def RegisterView(request):
 
     context = {}
     if request.POST:
-        form = RegisterationForm(request.POST)
+        form = RegistrationForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user, backend='accounts.backends.EmailAuthBackend')
             return redirect('home')
     else:
-        form = RegisterationForm()
+        form = RegistrationForm()
 
     context['register_form'] = form
     return render(request, 'accounts/register.html', context)
 
 
-def LogInView(request):
+def login_view(request):
 
     user = request.user
     if user.is_authenticated:
@@ -59,6 +60,6 @@ def LogInView(request):
     return render(request, "accounts/login.html", context)
 
 
-def LogOutView(request):
-	logout(request)
-	return redirect('home')
+def logout_view(request):
+    logout(request)
+    return redirect('home')

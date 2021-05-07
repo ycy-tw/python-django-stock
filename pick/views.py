@@ -9,215 +9,217 @@ import json
 import csv
 import codecs
 
-PirceColumns = [
+price_column = [
     'pe', 'pb', 'yield_rate',
 ]
 
-ChipsColumns = [
+chips_column = [
     'margin_purchase', 'short_sale', 'foreign',
     'trust', 'dealer', 'ftd_total',
 ]
 
 
-def GetSymbolsNames(symbols):
-    names = dict(StockBasic.objects.filter(symbol__in=symbols).values_list('symbol', 'name'))
-    return {'證券名稱':names}
+def get_symbol_name(symbols):
+    names = dict(StockBasic.objects.filter(
+        symbol__in=symbols).values_list('symbol', 'name'))
+    return {'證券名稱': names}
 
-def ColumnsNameToVariable(variable):
 
-    ColumnToChinese = {
-        'pe':'本益比',
-        'pb':'股價淨值比',
-        'yield_rate':'現金殖利率(%)',
-        'margin_purchase':'融資',
-        'short_sale':'融券',
-        'foreign':'外資',
-        'trust':'投信',
-        'dealer':'自營',
-        'ftd_total':'三大法人',
+def col_name_to_var(variable):
+
+    col_to_chinese = {
+        'pe': '本益比',
+        'pb': '股價淨值比',
+        'yield_rate': '現金殖利率(%)',
+        'margin_purchase': '融資',
+        'short_sale': '融券',
+        'foreign': '外資',
+        'trust': '投信',
+        'dealer': '自營',
+        'ftd_total': '三大法人',
     }
 
-    return ColumnToChinese[variable]
+    return col_to_chinese[variable]
 
 
 # Create your views here.
-def VariableToColumnsName(variable):
+def var_to_col(variable):
 
-    ChineseToColumn = {
-        '本益比':'pe',
-        '股價淨值比':'pb',
-        '現金殖利率':'yield_rate',
-        '融資':'margin_purchase',
-        '融券':'short_sale',
-        '外資':'foreign',
-        '投信':'trust',
-        '自營':'dealer',
-        '三大法人':'ftd_total',
+    chinese_to_col = {
+        '本益比': 'pe',
+        '股價淨值比': 'pb',
+        '現金殖利率': 'yield_rate',
+        '融資': 'margin_purchase',
+        '融券': 'short_sale',
+        '外資': 'foreign',
+        '投信': 'trust',
+        '自營': 'dealer',
+        '三大法人': 'ftd_total',
     }
 
-    return ChineseToColumn[variable]
+    return chinese_to_col[variable]
 
 
-def ChipsConditions(df, oneCondition):
+def chips_condition(df, condition):
 
-    firmAttr = list(oneCondition.keys())[0]
-    moreOrLess, threshold = oneCondition[firmAttr]
+    firm_attr = list(condition.keys())[0]
+    more_or_less, threshold = condition[firm_attr]
 
-    df = df[['date', 'symbol', firmAttr]]
+    df = df[['date', 'symbol', firm_attr]]
     df.date = pd.to_datetime(df.date)
     df = df.set_index(['date', 'symbol']).unstack()
     df.columns = df.columns.droplevel()
-    df = df.groupby(pd.Grouper(level='date',freq='M')).sum().iloc[-int(threshold):,:]
+    df = df.groupby(pd.Grouper(level='date', freq='M')).sum().iloc[-int(threshold):, :]
 
-    qualifiedSymbols = set(df.columns[(df > 0).all() == True]) if moreOrLess in ['大於', '增加', '買超'] \
-                                                               else set(df.columns[(df < 0).all() == True])
+    qualified_symbols = set(df.columns[(df > 0).all() == True]) if more_or_less in ['大於', '增加', '買超'] \
+        else set(df.columns[(df < 0).all() == True])
 
-    qualifiedSymbolsValue = df[qualifiedSymbols].sum().to_dict()
-    firmAttrResult = {f'{ColumnsNameToVariable(firmAttr)}近{threshold}個月累積(張)' : qualifiedSymbolsValue}
+    qualified_symbols_value = df[qualified_symbols].sum().to_dict()
+    firm_attr_result = {
+        f'{col_name_to_var(firm_attr)}近{threshold}個月累積(張)': qualified_symbols_value}
 
-    return qualifiedSymbols, firmAttrResult
+    return qualified_symbols, firm_attr_result
 
 
-def BasicConditions(df, oneCondition):
+def basic_condition(df, condition):
 
-    firmAttr = list(oneCondition.keys())[0]
-    moreOrLess, threshold = oneCondition[firmAttr]
-    lastestDate = df.date.max()
-    df = df[df.date == lastestDate][['symbol', firmAttr]]
+    firm_attr = list(condition.keys())[0]
+    more_or_less, threshold = condition[firm_attr]
+    latest_date = df.date.max()
+    df = df[df.date == latest_date][['symbol', firm_attr]]
     df.set_index('symbol', inplace=True)
 
-    if moreOrLess == '大於':
-        qualifiedSymbols = set(df[ (df[firmAttr] >= float(threshold)) == True ].index)
+    if more_or_less == '大於':
+        qualified_symbols = set(
+            df[(df[firm_attr] >= float(threshold)) == True].index)
 
-    elif moreOrLess == '小於':
-        qualifiedSymbols = set(df[ (df[firmAttr] < float(threshold)) == True ].index)
+    elif more_or_less == '小於':
+        qualified_symbols = set(
+            df[(df[firm_attr] < float(threshold)) == True].index)
 
-    qualifiedSymbolsValue = df[df.index.isin(list(qualifiedSymbols))][firmAttr].to_dict()
-    firmAttrResult = {ColumnsNameToVariable(firmAttr) : qualifiedSymbolsValue}
+    qualified_symbols_value = df[df.index.isin(list(qualified_symbols))][firm_attr].to_dict()
+    firm_attr_result = {col_name_to_var(firm_attr): qualified_symbols_value}
 
-    return qualifiedSymbols, firmAttrResult
+    return qualified_symbols, firm_attr_result
 
-def GetLatestStockReturn(symbols):
+
+def get_latest_stock_return(symbols):
 
     df = pd.DataFrame(StockPrice.objects.all().values())
     df.date = pd.to_datetime(df.date)
     df = df[['date', 'symbol', 'close']]
-    lastestDate = df.date.max()
+    latest_date = df.date.max()
 
     df = df.set_index(['date', 'symbol']).unstack()
     df.columns = df.columns.droplevel()
-    df = df[df.index <= lastestDate][symbols]
+    df = df[df.index <= latest_date][symbols]
 
-    latestPrice = df.iloc[-1, :]
-    lastTwentyPrice = df.iloc[-20, :]
-    lastSixtyPrice = df.iloc[-60, :]
-    lastHundredTwentyPrice = df.iloc[-120, :]
+    latest_price = df.iloc[-1, :]
+    last_20_price = df.iloc[-20, :]
+    last_60_price = df.iloc[-60, :]
+    last_120_price = df.iloc[-120, :]
 
-    latestPriceAndReturn =  {
-                                f'最新收盤價':latestPrice.to_dict(),
-                                '近20天報酬率(%)': ((lastTwentyPrice / latestPrice) - 1).to_dict(),
-                                '近60天報酬率(%)': ((lastSixtyPrice / latestPrice) - 1).to_dict(),
-                                '近120天報酬率(%)': ((lastHundredTwentyPrice / latestPrice) - 1).to_dict(),
-                            }
+    latest_price_return = {
+        f'最新收盤價': latest_price.to_dict(),
+        '近20天報酬率(%)': ((last_20_price / latest_price) - 1).to_dict(),
+        '近60天報酬率(%)': ((last_60_price / latest_price) - 1).to_dict(),
+        '近120天報酬率(%)': ((last_120_price / latest_price) - 1).to_dict(),
+    }
 
-    return latestPriceAndReturn
+    return latest_price_return
+
 
 @login_required
-def PickView(request):
+def pick_view(request):
 
-    global filterResult
+    global filter_result
 
     if 'conditions' in request.GET:
 
         conditions = json.loads(request.GET.get('conditions'))
+        print(conditions)
+        for firm_attr in list(conditions.keys()):
+            conditions[var_to_col(firm_attr)] = conditions.pop(firm_attr)
 
-        for firmAttr in list(conditions.keys()):
-            conditions[VariableToColumnsName(firmAttr)] = conditions.pop(firmAttr)
+        final_qualified_symbols = set(StockBasic.objects.values_list('symbol', flat=True))
+        final_output_dict = {}
 
-        finalQualifiedSymbols = set()
-        finalOutputDict = {}
-        firstAttr = True
-        for firmAttr in conditions:
+        for firm_attr in conditions:
 
-            callPriceTableYet = False
-            callChipsTableYet = False
+            if (firm_attr in price_column):
 
-            if (firmAttr in PirceColumns):
-                if callPriceTableYet == False:
+                priceTable = pd.DataFrame(
+                    StockPrice.objects
+                    .filter(symbol__in=list(final_qualified_symbols))
+                    .values('date', 'symbol', firm_attr)
+                )
+                qualified_symbols, firm_attr_result = basic_condition(priceTable, {firm_attr: conditions[firm_attr]})
 
-                    priceTable = pd.DataFrame(StockPrice.objects.all().values())
-                    callPriceTableYet = True
-                    qualifiedSymbols, firmAttrResult = BasicConditions(priceTable, {firmAttr:conditions[firmAttr]})
+            elif (firm_attr in chips_column):
 
-                else:
-                    qualifiedSymbols, firmAttrResult = BasicConditions(priceTable, {firmAttr:conditions[firmAttr]})
-
-            elif (firmAttr in ChipsColumns):
-                if callChipsTableYet == False:
-
-                    chipsTable = pd.DataFrame(StockChips.objects.all().values())
-                    callChipsTableYet = True
-                    qualifiedSymbols, firmAttrResult = ChipsConditions(chipsTable, {firmAttr:conditions[firmAttr]})
-
-                else:
-                    qualifiedSymbols, firmAttrResult = ChipsConditions(chipsTable, {firmAttr:conditions[firmAttr]})
+                chipsTable = pd.DataFrame(
+                    StockChips.objects.
+                    filter(symbol__in=list(final_qualified_symbols))
+                    .values('date', 'symbol', firm_attr)
+                )
+                qualified_symbols, firm_attr_result = chips_condition(chipsTable, {firm_attr: conditions[firm_attr]})
 
             # Once no result under one of the conditinos, means no qualified symbols.
-            if (len(qualifiedSymbols) != 0):
-                if (firstAttr == True):
+            if (len(qualified_symbols) == 0):
 
-                    finalQualifiedSymbols = qualifiedSymbols
-                    finalOutputDict.update(firmAttrResult)
-
-                else:
-
-                    finalQualifiedSymbols = finalQualifiedSymbols & qualifiedSymbols
-                    finalOutputDict.update(firmAttrResult)
-            else:
-
-                finalQualifiedSymbols = set()
-                finalOutputDict = {}
+                final_qualified_symbols = set()
+                final_output_dict = {}
                 break
 
-            firstAttr = False
+            else:
 
-        if len(finalQualifiedSymbols) != 0:
+                final_qualified_symbols = final_qualified_symbols & qualified_symbols
+                final_output_dict.update(firm_attr_result)
 
-            latestPriceAndReturn = GetLatestStockReturn(finalQualifiedSymbols)
-            symbolsAndNames = GetSymbolsNames(finalQualifiedSymbols)
-            latestPriceAndReturn.update(finalOutputDict)
-            symbolsAndNames.update(latestPriceAndReturn)
+        if len(final_qualified_symbols) != 0:
 
-            filterResult = pd.DataFrame(symbolsAndNames).round(2)
-            filterResult.index.name = '證券代號'
-            filterResult = filterResult[filterResult.index.isin(finalQualifiedSymbols)]
-            filterResult.reset_index(inplace=True)
+            latest_price_return = get_latest_stock_return(final_qualified_symbols)
+            symbols_names = get_symbol_name(final_qualified_symbols)
+            latest_price_return.update(final_output_dict)
+            symbols_names.update(latest_price_return)
 
-            conditionResult = filterResult.T.to_dict()
+            filter_result = pd.DataFrame(symbols_names).round(2)
+            filter_result.index.name = '證券代號'
+            filter_result = filter_result[filter_result.index.isin(final_qualified_symbols)]
+            filter_result.reset_index(inplace=True)
 
-        elif len(finalQualifiedSymbols) == 0:
-            conditionResult = {}
+            filter_result = filter_result.T.to_dict()
+
+            '''
+            {0: {'證券代號': 1101, '證券名稱': '台泥', '最新收盤價': 47.2,
+            '近20天報酬率(%)': -0.1, '近60天報酬率(%)': -0.09, '近120天報酬率(%)': -0.14,
+            '本益比': 11.16}, 1: {'證券代號': 1102, '證券名稱': '亞泥', '最新收盤價': 47.35,
+            '近20天報酬率(%)': -0.08, '近60天報酬率(%)': -0.09, '近120天報酬率(%)': -0.14, '本益比': 10.81},
+            '''
+
+        elif len(final_qualified_symbols) == 0:
+            filter_result = {}
 
         print('+----------------------+')
         print('|  Success Call Back!  |')
         print('+----------------------+')
 
-        return JsonResponse({'conditionResult':conditionResult}, status=200)
+        return JsonResponse({'conditionResult': filter_result}, status=200)
 
     return render(request, 'pick/pick.html')
 
 
-def DownloadPickResult(request):
+def download_pick_result(request):
 
     response = HttpResponse(content_type='text/csv')
 
     writer = csv.writer(response)
-    response.write(codecs.BOM_UTF8) # for chinese encoding problem
+    response.write(codecs.BOM_UTF8)  # for chinese encoding problem
 
     try:
-        writer.writerow(list(filterResult.columns))
-        for i in range(len(filterResult)):
-            writer.writerow(list(filterResult.loc[i].values))
+        writer.writerow(list(filter_result.columns))
+        for i in range(len(filter_result)):
+            writer.writerow(list(filter_result.loc[i].values))
 
         response['Content-Disposition'] = 'attachment; filename="result.csv"'
 

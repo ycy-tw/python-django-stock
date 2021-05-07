@@ -4,163 +4,236 @@
 {% block content %}
 
 <style>
+    .loader-wrapper {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: #242f3f;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .loader {
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        position: relative;
+        border: 4px solid #Fff;
+        animation: loader 2s infinite ease;
+    }
+
+    .loader-inner {
+        vertical-align: top;
+        display: inline-block;
+        width: 100%;
+        background-color: #fff;
+        animation: loader-inner 2s infinite ease-in;
+    }
+
+    @keyframes loader {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        25% {
+            transform: rotate(180deg);
+        }
+
+        50% {
+            transform: rotate(180deg);
+        }
+
+        75% {
+            transform: rotate(360deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    @keyframes loader-inner {
+        0% {
+            height: 0%;
+        }
+
+        25% {
+            height: 0%;
+        }
+
+        50% {
+            height: 100%;
+        }
+
+        75% {
+            height: 100%;
+        }
+
+        100% {
+            height: 0%;
+        }
+    }
+
     .conditionAndChoices {
-    margin: 10px;
-}
+        margin: 10px;
+    }
 
-.conditions {
-    width: 400px;
-    height: 260px;
-    border: 1px #adadad solid;
-    border-radius: 5px;
-    background-color:#c3d1e6;
-    overflow: scroll;
-    margin:auto;
-    overflow-x: hidden;
-}
+    .conditions {
+        width: 400px;
+        height: 260px;
+        border: 1px #adadad solid;
+        border-radius: 5px;
+        background-color: #c3d1e6;
+        overflow: scroll;
+        margin: auto;
+        overflow-x: hidden;
+    }
 
-.user-choices {
-    width: 400px;
-    height: 260px;
-    border: 1px #adadad solid;
-    border-radius: 5px;
-    background-color:#c3d1e6;
-    margin:auto;
-}
+    .user-choices {
+        width: 400px;
+        height: 260px;
+        border: 1px #adadad solid;
+        border-radius: 5px;
+        background-color: #c3d1e6;
+        margin: auto;
+    }
 
-.choices-head{
-    width: 400px;
-    text-align: left;
-    margin:auto;
-    border-bottom: 1px #adadad solid;
-    margin-bottom: 15px;
-}
+    .choices-head {
+        width: 400px;
+        text-align: left;
+        margin: auto;
+        border-bottom: 1px #adadad solid;
+        margin-bottom: 15px;
+    }
 
-.result-head  {
-    margin-top: 15px;
-    border-bottom: 1px #adadad solid;
-}
+    .result-head {
+        margin-top: 15px;
+        border-bottom: 1px #adadad solid;
+    }
 
-.result-head h4 {
-    display: inline-block;
-    font-weight: bold;
-}
+    .result-head h4 {
+        display: inline-block;
+        font-weight: bold;
+    }
 
-.result-head button{
-    margin-left: 20px;
-    float: right;
-}
+    .result-head button {
+        margin-left: 20px;
+        float: right;
+    }
 
-.result-head a{
-    color: white;
-    text-decoration: none;
-}
+    .result-head a {
+        color: white;
+        text-decoration: none;
+    }
 
-.result {
-    margin-top: 15px;
-}
+    .result {
+        margin-top: 15px;
+    }
 
-.result table{
-    text-align:right;
-}
+    .result table {
+        text-align: right;
+    }
 
-.result a{
-    color: #212529;
-    text-decoration: none;
-}
+    .result a {
+        color: #212529;
+        text-decoration: none;
+    }
 
-.result a:hover{
-    font-weight: bold;
-}
+    .result a:hover {
+        font-weight: bold;
+    }
 
 
 
-.conditions div{
+    .conditions div {
 
-    padding: 5px;
-    margin: 5px;
-    border: 1px #a3a3a3 solid;
-    border-radius:3px;
-    background-color: #dde2eb;
-    font-weight: bold;
-}
+        padding: 5px;
+        margin: 5px;
+        border: 1px #a3a3a3 solid;
+        border-radius: 3px;
+        background-color: #dde2eb;
+        font-weight: bold;
+    }
 
-.conditions span{
-    display:inline-block;
-    padding: 5px 5px;
- }
+    .conditions span {
+        display: inline-block;
+        padding: 5px 5px;
+    }
 
-.conditions button{
-    display:inline-block;
-    padding: 5px 5px;
-    float: right;
- }
+    .conditions button {
+        display: inline-block;
+        padding: 5px 5px;
+        float: right;
+    }
 
-.firm-variable {
-    padding: 5px;
-    margin: 5px;
-    border: 1px #a3a3a3 solid;
-    border-radius:3px;
-    background-color: #dde2eb;
-    font-weight: bold;
-}
+    .firm-variable {
+        padding: 5px;
+        margin: 5px;
+        border: 1px #a3a3a3 solid;
+        border-radius: 3px;
+        background-color: #dde2eb;
+        font-weight: bold;
+    }
 
-.firm-variable button{
-    float: right;
-    padding: 5px 5px;
-}
+    .firm-variable button {
+        float: right;
+        padding: 5px 5px;
+    }
 
-.firm-variable select{
-    background-color: #f2f2f2;
-    border-width:2px;
-}
+    .firm-variable select {
+        background-color: #f2f2f2;
+        border-width: 2px;
+    }
 
-.conditions-head {
-    width: 400px;
-    text-align: left;
-    margin:auto;
-    border-bottom: 1px #adadad solid;
-    margin-bottom: 15px;
-}
-.conditions-head h4{
-    font-weight: bold;
-}
+    .conditions-head {
+        width: 400px;
+        text-align: left;
+        margin: auto;
+        border-bottom: 1px #adadad solid;
+        margin-bottom: 15px;
+    }
 
-.choices-head{
-    width: 400px;
-    text-align: left;
-    margin:auto;
-    border-bottom: 1px #adadad solid;
-    margin-bottom: 15px;
-}
+    .conditions-head h4 {
+        font-weight: bold;
+    }
 
-.choices-head h4{
-    display: inline-block;
-    font-weight: bold;
-}
+    .choices-head {
+        width: 400px;
+        text-align: left;
+        margin: auto;
+        border-bottom: 1px #adadad solid;
+        margin-bottom: 15px;
+    }
 
-.choices-head button{
-    float: right;
-}
+    .choices-head h4 {
+        display: inline-block;
+        font-weight: bold;
+    }
 
-.explain-head {
-    border-bottom: 1px #adadad solid;
-    text-align: left;
-    margin:auto;
-    margin-bottom: 15px;
-}
+    .choices-head button {
+        float: right;
+    }
 
-.explain-head h4{
-    display: inline-block;
-    font-weight: bold;
-}
+    .explain-head {
+        border-bottom: 1px #adadad solid;
+        text-align: left;
+        margin: auto;
+        margin-bottom: 15px;
+    }
 
-.explain span{
-    display:block;
-    text-align: center;
-    margin: 10px;
-}
+    .explain-head h4 {
+        display: inline-block;
+        font-weight: bold;
+    }
 
+    .explain span {
+        display: block;
+        text-align: center;
+        margin: 10px;
+    }
 </style>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
 
@@ -171,13 +244,17 @@
         </div>
         <div class="explain">
             <span>(1) 挑選篩選變數</span>
-            <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-circle" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
-              </svg></span>
+            <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-arrow-down-circle" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z" />
+                </svg></span>
             <span>(2) 設定變數參數</span>
-            <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-circle" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"/>
-              </svg></span>
+            <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-arrow-down-circle" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z" />
+                </svg></span>
             <span>(3) 按下開始篩選</span>
         </div>
     </div>
@@ -187,82 +264,100 @@
                 <h4> 篩選條件 </h4>
             </div>
             <div class="conditions">
-            <div>
-                <span class="var">本益比</span>
-                <button type="button" class="btn btn-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
-                    <path d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>
-                </svg></button>
-            </button>
-            </div>
-            <div>
-                <span>股價淨值比</span>
-                <button type="button" class="btn btn-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
-                    <path d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>
-                </svg></button>
-            </button>
-            </div>
-        <div>
-            <span>現金殖利率</span>
-            <button type="button" class="btn btn-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
-                    <path d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>
-                </svg></button>
-        </button>
-        </div>
+                <div>
+                    <span class="var">本益比</span>
+                    <button type="button" class="btn btn-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                            height="16" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
+                            <path
+                                d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z" />
+                        </svg></button>
+                    </button>
+                </div>
+                <div>
+                    <span>股價淨值比</span>
+                    <button type="button" class="btn btn-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                            height="16" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
+                            <path
+                                d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z" />
+                        </svg></button>
+                    </button>
+                </div>
+                <div>
+                    <span>現金殖利率</span>
+                    <button type="button" class="btn btn-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                            height="16" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
+                            <path
+                                d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z" />
+                        </svg></button>
+                    </button>
+                </div>
 
-            <div>
-                <span>外資買賣超</span>
-                <button type="button" class="btn btn-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
-                    <path d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>
-                </svg></button>
-            </button>
-            </div>
-            <div>
-                <span>投信買賣超</span>
-                <button type="button" class="btn btn-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
-                    <path d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>
-                </svg></button>
-            </button>
-            </div>
-            <div>
-                <span>自營買賣超</span>
-                <button type="button" class="btn btn-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
-                    <path d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>
-                </svg></button>
-            </button>
-            </div>
-            <div>
-                <span>三大法人買賣超</span>
-                <button type="button" class="btn btn-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
-                    <path d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>
-                </svg></button>
-            </button>
-            </div>
-            <div>
-                <span>融資</span>
-                <button type="button" class="btn btn-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
-                    <path d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>
-                </svg></button>
-            </button>
-            </div>
-            <div>
-                <span>融券</span>
-                <button type="button" class="btn btn-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
-                    <path d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>
-                </svg></button>
-            </button>
+                <div>
+                    <span>外資買賣超</span>
+                    <button type="button" class="btn btn-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                            height="16" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
+                            <path
+                                d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z" />
+                        </svg></button>
+                    </button>
+                </div>
+                <div>
+                    <span>投信買賣超</span>
+                    <button type="button" class="btn btn-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                            height="16" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
+                            <path
+                                d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z" />
+                        </svg></button>
+                    </button>
+                </div>
+                <div>
+                    <span>自營買賣超</span>
+                    <button type="button" class="btn btn-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                            height="16" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
+                            <path
+                                d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z" />
+                        </svg></button>
+                    </button>
+                </div>
+                <div>
+                    <span>三大法人買賣超</span>
+                    <button type="button" class="btn btn-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                            height="16" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
+                            <path
+                                d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z" />
+                        </svg></button>
+                    </button>
+                </div>
+                <div>
+                    <span>融資</span>
+                    <button type="button" class="btn btn-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                            height="16" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
+                            <path
+                                d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z" />
+                        </svg></button>
+                    </button>
+                </div>
+                <div>
+                    <span>融券</span>
+                    <button type="button" class="btn btn-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                            height="16" fill="currentColor" class="bi bi-caret-right" viewBox="0 0 16 16">
+                            <path
+                                d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z" />
+                        </svg></button>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="col-sm">
-    <div class="choices-head">
-        <h4> 已加入條件(至多5項) </h4>
-        <button type="button" id="filterStcok" class="btn btn-primary btn-sm">開始篩選</button>
-    </div>
-    <div class="user-choices">
+    <div class="col-sm">
+        <div class="choices-head">
+            <h4> 已加入條件(至多5項) </h4>
+            <button type="button" id="filterStcok" class="btn btn-primary btn-sm">開始篩選</button>
+        </div>
+        <div class="user-choices">
 
+        </div>
     </div>
-</div>
 </div>
 <div class="row justify-content-center conditionAndChoices">
     <div class="col-sm">
@@ -273,18 +368,20 @@
             </button>
         </div>
         <div class="result">
-
         </div>
     </div>
 </div>
-<script
-    src="https://code.jquery.com/jquery-2.2.4.min.js"
-    integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
-    crossorigin="anonymous">
-</script>
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"
+    integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous">
+    </script>
 <script src="{% static 'pick/pick.js' %}"></script>
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
 
+<script>
+    $(window).on("load", function () {
+        $(".loader-wrapper").fadeOut("slow");
+    });
+</script>
 
 {% endblock %}
