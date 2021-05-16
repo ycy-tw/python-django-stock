@@ -132,7 +132,7 @@ def get_latest_stock_return(symbols):
 @login_required
 def pick_view(request):
 
-    global filter_result_df
+    global filter_result
 
     if 'conditions' in request.GET:
 
@@ -188,8 +188,7 @@ def pick_view(request):
             filter_result = filter_result[filter_result.index.isin(final_qualified_symbols)]
             filter_result.reset_index(inplace=True)
 
-            filter_result_df = filter_result
-            filter_result = filter_result_df.T.to_dict()
+            filter_result = filter_result.T.to_dict()
 
             '''
             {0: {'證券代號': 1101, '證券名稱': '台泥', '最新收盤價': 47.2,
@@ -218,9 +217,9 @@ def download_pick_result(request):
     response.write(codecs.BOM_UTF8)  # for chinese encoding problem
 
     try:
-        writer.writerow(list(filter_result_df.columns))
-        for i in range(len(filter_result_df)):
-            writer.writerow(list(filter_result_df.loc[i].values))
+        writer.writerow(list(filter_result.columns))
+        for i in range(len(filter_result)):
+            writer.writerow(list(filter_result.loc[i].values))
 
         response['Content-Disposition'] = 'attachment; filename="result.csv"'
 

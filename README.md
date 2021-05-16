@@ -1,20 +1,14 @@
 # python-django-stock
-
-[**Click to view demo website**]('https://django-stock-subamujjwq-de.a.run.app/')
-
 Stock information provider. There are fifty stocks, components of 0050.TW, contained in `demodata` folder.
 
-## Release Notes
-2021.05.16
-+ Correct few bugs.
-
+## Update Record
 2021.05.07
 + Optimize pick_view.
 + Correct few misspelling.
 + Change naming style.
 
 2021.04.25
-+ First push.
++ First Push
 
 ## Project Overview
 ### Screenshots
@@ -84,14 +78,6 @@ Stock information provider. There are fifty stocks, components of 0050.TW, conta
 
 ### Database:
 + PostgreSQL
-
-### Deployment:
-+ Docker
-+ Cloud build
-+ Cloud Run
-+ Cloud SQL
-+ Cloud Storage
-+ Secret Manager
 
 ## Setup
 
