@@ -6,6 +6,10 @@ docker-compose.yml
 Pipfile
 Pipfile.lock
 
+#
+.vscode
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

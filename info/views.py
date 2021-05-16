@@ -207,4 +207,4 @@ def basic_variable_view(request, symbol):
         'latestupdate': LatestUpdate,
     }
 
-    return render(request, 'info/info2.html', context)
+    return render(request, 'info/info.html', context)
