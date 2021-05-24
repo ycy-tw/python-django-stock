@@ -6,7 +6,8 @@ docker-compose.yml
 Pipfile
 Pipfile.lock
 
-cloudmigrate.yaml
+# vscode
+.vscode
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

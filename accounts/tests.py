@@ -1,8 +1,10 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase, Client, SimpleTestCase
 from django.urls import reverse, resolve
-from .forms import RegistrationForm
-from .views import register, homepage, login_view
+from django.core.exceptions import ValidationError
+from .forms import RegistrationForm, LogInForm
+from .views import RegisterView, HomePageView, LogInView
+from .models import Account
 
 
 class UserModelTest(TestCase):
@@ -40,7 +42,7 @@ class UserModelTest(TestCase):
             User.objects.create_superuser(email=None)
 
 
-class registerTests(TestCase):
+class RegisterViewTests(TestCase):
 
     def setUp(self):
 
@@ -57,7 +59,7 @@ class registerTests(TestCase):
         view = resolve('/register/')
         self.assertEqual(
             view.func.__name__,
-            register.__name__
+            RegisterView.__name__
         )
 
     def test_register_process(self):
@@ -142,7 +144,7 @@ class RegisterFormTest(TestCase):
         )
 
 
-class login_viewTests(TestCase):
+class LoginViewTests(TestCase):
 
     def setUp(self):
 
@@ -160,7 +162,7 @@ class login_viewTests(TestCase):
         view = resolve('/login/')
         self.assertEqual(
             view.func.__name__,
-            login_view.__name__
+            LogInView.__name__
         )
 
     def test_success_login(self):
@@ -200,9 +202,9 @@ class HomepageTests(SimpleTestCase):
     def test_homepage_template(self):
         self.assertTemplateUsed(self.response, 'index.html')
 
-    def test_homepage_url_resolves_homepage(self):  # new
+    def test_homepage_url_resolves_homepageview(self):  # new
         view = resolve('/')
         self.assertEqual(
             view.func.__name__,
-            homepage.__name__
+            HomePageView.__name__
         )

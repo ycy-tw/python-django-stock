@@ -1,7 +1,6 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from .views import (
-    about_page,
     homepage,
     register,
     login_view,
@@ -11,11 +10,10 @@ from .views import (
 
 urlpatterns = [
     path('', homepage, name='home'),
-    path('about/', about_page, name='about'),
-
     path('register/', register, name='register'),
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
+
     path('password-reset/',
          auth_views.PasswordResetView.as_view(
              template_name='accounts/password_reset.html'

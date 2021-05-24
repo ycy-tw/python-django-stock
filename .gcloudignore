@@ -1,8 +1,0 @@
-.env
-venv
-Pipfile
-Pipfile.lock
-.vscode
-.gitignore
-.screenshots
-docker-compose.yml
