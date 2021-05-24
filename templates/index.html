@@ -1,70 +1,90 @@
 {% load static %}
 
 <style>
-nav {
-  background: #00457a;
-  height:60px;
-}
+  nav {
+    background: #00457a;
+    height: 60px;
+  }
 
-#navbarSupportedContent a{
-  color: #f8fafbca;
-  font-weight: bold;
-}
-
+  #navbarSupportedContent a {
+    color: #f8fafbca;
+    font-weight: bold;
+  }
 </style>
 
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
-    <meta charset="utf-8">
-    <link rel="stylesheet" type='text/css' href="{% static 'style.css' %}">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
-  </head>
-  <body>
-    <nav class="navbar navbar-expand-sm navbar-light" style="background: #00457a;">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'home' %}"><img src="{% static 'images/logo.png' %}" style="width:48px;"></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="{% url 'info' symbol=2330 %}">股票</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="{% url 'pick' %}">篩選</a>
-            </li>
-          </ul>
-          {% if user.is_authenticated %}
-          <ul class="form-inline my-2 my-lg-0">
-              <a class="nav-link active" aria-current="page" href="#">{{ user.email }}</a>
-          </ul>
-          <ul class="form-inline my-2 my-lg-0">
-            <a class="nav-link active" aria-current="page" href="{% url 'logout' %}">登出</a>
-          </ul>
-          {% else %}
-          <ul class="form-inline my-2 my-lg-0">
-            <a class="nav-link active" aria-current="page" href="{% url 'login' %}">登入/註冊</a>
-          </ul>
-          {% endif %}
-        </div>
-      </div>
-    </nav>
-    <div class="wrapper">
-      <h4>今天要研究哪檔股票呢?</h4>
-      <div class="search-input">
-        <a href="" target="_blank" hidden></a>
-        <input type="text" placeholder="例如: 台積電, 2330...">
-        <div class="autocom-box">
-          <!-- here list are inserted from javascript -->
-        </div>
-        <div class="icon"><i class="fas fa-search"></i></div>
+
+<head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-157347770-5"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-157347770-5');
+  </script>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+  <meta charset="utf-8">
+  <link rel="stylesheet" type='text/css' href="{% static 'style.css' %}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-sm navbar-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'home' %}"><img src="{% static 'images/logo.png' %}" style="width:48px;"></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'info' symbol=2330 %}">股票</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'pick' %}">篩選</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'about' %}">關於</a>
+          </li>
+        </ul>
+        {% if user.is_authenticated %}
+        <ul class="form-inline my-2 my-lg-0">
+          <a class="nav-link active" aria-current="page" href="#">{{ user.email }}</a>
+        </ul>
+        <ul class="form-inline my-2 my-lg-0">
+          <a class="nav-link active" aria-current="page" href="{% url 'logout' %}">登出</a>
+        </ul>
+        {% else %}
+        <ul class="form-inline my-2 my-lg-0">
+          <a class="nav-link active" aria-current="page" href="{% url 'login' %}">登入/註冊</a>
+        </ul>
+        {% endif %}
       </div>
     </div>
-    <script src="{% static 'suggestions.js' %}"></script>
-    <script src="{% static 'scripts.js' %}"></script>
-  </body>
+  </nav>
+  <div class="wrapper">
+    <h4>今天要研究哪檔股票呢?</h4>
+    <div class="search-input">
+      <a href="" target="_blank" hidden></a>
+      <input type="text" placeholder="例如: 台積電, 2330...">
+      <div class="autocom-box">
+        <!-- here list are inserted from javascript -->
+      </div>
+      <div class="icon"><i class="fas fa-search"></i></div>
+    </div>
+  </div>
+  <script src="{% static 'suggestions.js' %}"></script>
+  <script src="{% static 'scripts.js' %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+    crossorigin="anonymous"></script>
+</body>
+
 </html>

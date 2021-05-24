@@ -11,54 +11,24 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
-import io
-
 import environ
-
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 env_file = os.path.join(BASE_DIR, ".env")
-
-
 env = environ.Env()
-# If no .env has been provided, pull it from Secret Manager
-if os.path.isfile(env_file):
-    env.read_env(env_file)
-else:
-    # Create local settings if running with CI, for unit testing
-    if os.getenv("TRAMPOLINE_CI", None):
-        placeholder = f"SECRET_KEY=a\nGS_BUCKET_NAME=none\nDATABASE_URL=sqlite://{os.path.join(BASE_DIR, 'db.sqlite3')}"
-        env.read_env(io.StringIO(placeholder))
-    else:
-        # [START cloudrun_django_secretconfig]
-        import google.auth
-        from google.cloud import secretmanager
-
-        _, project = google.auth.default()
-
-        if project:
-            client = secretmanager.SecretManagerServiceClient()
-
-            SETTINGS_NAME = os.environ.get("SETTINGS_NAME", "django_settings")
-            name = f"projects/{project}/secrets/{SETTINGS_NAME}/versions/latest"
-            payload = client.access_secret_version(name=name).payload.data.decode(
-                "UTF-8"
-            )
-        env.read_env(io.StringIO(payload))
-
-        # [END cloudrun_django_secretconfig]
+env.read_env(env_file)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env("SECRET_KEY")
+SECRET_KEY = 'Your Secret Key'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -115,15 +85,14 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': 'db.sqlite3',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'db.sqlite3',
+    }
+}
 
-DATABASES = {"default": env.db()}
-
+#DATABASES = {"default": env.db()}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
@@ -168,14 +137,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
-#STATIC_ROOT = 'static_root'
-# [START cloudrun_django_staticconfig]
-# Define static storage via django-storages[google]
-GS_BUCKET_NAME = env("GS_BUCKET_NAME")
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
-DEFAULT_FILE_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
-STATICFILES_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
-GS_DEFAULT_ACL = "publicRead"
 
 AUTH_USER_MODEL = 'accounts.Account'
 AUTHENTICATION_BACKENDS = (
@@ -218,8 +181,3 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = env("SOCIAL_AUTH_GOOGLE_OAUTH2_KEY")
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = env("SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET")
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['email']
-
-
-# Override production variables if DJANGO_DEVELOPMENT env variable is set
-if os.environ.get('DJANGO_DEVELOPMENT'):
-    from config.dev_settings import *  # or specific overrides
