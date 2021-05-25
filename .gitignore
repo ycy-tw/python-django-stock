@@ -6,8 +6,10 @@ docker-compose.yml
 Pipfile
 Pipfile.lock
 
-# vscode
-.vscode
+.vscode/
+.gcloudignore
+
+cloudmigrate.yaml
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

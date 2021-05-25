@@ -5,6 +5,9 @@
 Stock information provider. There are fifty stocks, components of 0050.TW, contained in `demodata` folder.
 
 ## Release Notes
+2021.05.25
++ Push official patch.
+
 2021.05.16
 + Correct few bugs.
 
