@@ -9,7 +9,7 @@ Stock information provider. There are fifty stocks, components of 0050.TW, conta
 + Push official patch.
 
 2021.05.16
-+ Correct few bugs.
++ Fix few bugs.
 
 2021.05.07
 + Optimize pick_view.
@@ -59,7 +59,7 @@ Stock information provider. There are fifty stocks, components of 0050.TW, conta
 ![](https://github.com/ycy-tw/python-django-stock/blob/b6a658fc7e3fffbc19bd1efe5c346527ff512726/screenshots/pick_result.png)
 
 
-### Functinos:
+### Features:
 
 + Sign in through thrid-party accounts(Facebook and Google).
 + Easy collect users' email accounts
@@ -98,7 +98,7 @@ Stock information provider. There are fifty stocks, components of 0050.TW, conta
 
 ## Setup
 
-### 1. Enviroment
+### 1. Environment
 + `pipenv --python 3.7`
 + `pipenv install -r requirements.txt`
 + `pipenv shell`
@@ -116,6 +116,6 @@ Stock information provider. There are fifty stocks, components of 0050.TW, conta
 + `https://127.0.0.1:8000`
 
 ## Note
-+ if you need access to admin page, execute the command below to create superuser(admin account).Then visit `https://127.0.0.1:8000/admin`.
++ If you need access to admin page, execute the command below to create superuser(admin account), then visit `https://127.0.0.1:8000/admin`.
 
 `python manage.py createsuperuser`
